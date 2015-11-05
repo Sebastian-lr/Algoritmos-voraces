@@ -41,33 +41,49 @@ public class Dijkstra {
         int iter = 1; // Numero del a columna sobre la que voy iterando  
         while (iter < mapa.size()) {
             for (int j = 0; j < matriz[0].length - 1; j++) {
-                if (cad.length() == 1) {
+                if (iter == 1) {
                     if (matriz[j][0].equals(cad)) {
                         matriz[j][iter] = 0 + "," + cad + "," + "*";
                     }
-
                     for (String get1 : adyacentes(mapa, cad)) {
                         if (matriz[j][0].equals(get1.split(",")[0]) && matriz[j][iter] == null) {
                             matriz[j][iter] = get1.split(",")[1] + "," + cad;
                         }
                     }
-
                 } else {
-                    if (matriz[j][0].equals(cad.split(",")[0])) {
-                        matriz[j][iter] = cad.split(",")[1] + "," + cad.split(",")[0] + "," + "*";
+                    if (matriz[j][0].equals(cad)) {
+                        matriz[j][iter] = matriz[j][iter - 1].split(",")[0] + "," + matriz[j][iter - 1].split(",")[1] + "," + "*";
                     }
-                }
+                    for (String get1 : adyacentes(mapa, cad)) {
+                        if (matriz[j][0].equals(get1.split(",")[0]) && matriz[j][iter] == null) {
+                            int t = total(Integer.parseInt(get1.split(",")[1]), cad, matriz, iter);
+                            if (matriz[j][iter - 1] != null) {
+                                if (Integer.parseInt(matriz[j][iter - 1].split(",")[0]) > t) {
+                                    matriz[j][iter] = t + "," + cad;
+                                } else {
+                                    matriz[j][iter] = matriz[j][iter - 1];
+                                }
+                            } else {
+                                matriz[j][iter] = t + "," + cad;
+                            }
+                        } else if (matriz[j][0].equals(get1.split(",")[0])) {
+                            int t = total(Integer.parseInt(get1.split(",")[1]), cad, matriz, iter);
+                            System.out.println("t: " + t);
 
-                for (String get1 : adyacentes(mapa, cad.split(",")[0])) {
-                    if (matriz[j][0].equals(get1.split(",")[0]) && matriz[j][iter] == null) {
-                        matriz[j][iter] = get1.split(",")[1] + "," + cad.split(",")[0];
+                        }
+                    }
+                    for (int k = 0; k < matriz.length; k++) {
+                        if (iter > 1) {
+                            if (matriz[k][iter] == null) {
+                                matriz[k][iter] = matriz[k][iter - 1];
+                            }
+                        }
                     }
                 }
                 marcar(matriz);
             }
             sel = seleccion(matriz, iter);
-            cad = sel;
-            System.out.println("seleccionado: " + sel);
+            cad = sel.split(",")[0];
             iter++;
         }
         for (int j = 0; j < matriz[0].length - 1; j++) {
@@ -77,6 +93,22 @@ public class Dijkstra {
             System.out.println("");
         }
         //}
+    }
+
+    public int total(int ady, String ori, String[][] m, int col) {
+
+        System.out.println("Valor " + ady);
+        System.out.println("Ori " + ori);
+        System.out.println("Col " + col);
+//        int total = 0;
+//        for (int i = 0; i < m.length; i++) {
+//            if (m[i][0].equals(ori)) {
+//                if (m[i][col] != null) {
+//                    total = Integer.parseInt(m[i][col].split(",")[0]) + ady;
+//                }
+//            }
+//        }
+        return 0;
     }
 
     // obtengo los adyacentes de "cad(a)"
@@ -105,15 +137,13 @@ public class Dijkstra {
     }
 
     public String seleccion(String matriz[][], int cont) {
-        //System.out.println("+++++++ "+matriz.length);
-
         String sel = "";
         int x = 100;
         for (int i = 0; i < matriz.length; i++) {
-            if (matriz[i][cont] != null && matriz[i][cont].split(",").length < 3) {
+            if (matriz[i][cont] != null && matriz[i][cont].split(",").length == 2) {
                 if (Integer.parseInt(matriz[i][cont].split(",")[0]) < x) {
                     x = Integer.parseInt(matriz[i][cont].split(",")[0]);
-                    sel = matriz[i][0] + "," + matriz[i][cont];
+                    sel = matriz[i][0];
                 }
             }
         }
