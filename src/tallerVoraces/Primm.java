@@ -14,7 +14,7 @@ import java.util.LinkedList;
  */
 public class Primm {
 
-    LinkedList<String> visitados;
+    private final LinkedList<String> visitados;
 
 
     public Primm() {
@@ -26,23 +26,8 @@ public class Primm {
         LinkedList<String> solucion = new LinkedList<>();
         visitados.add(nodoinicial);
         while (!solucion(solucion,mapa) ) {
-           
-//                            for (int i = 0; i < seleccion(mapa, visitados).size(); i++) {
-//                                System.out.println(seleccion(mapa, visitados).get(i));
-//
-//                            }
-//                            System.out.println("----------------------------------");
-//                            System.out.println("VISITADOS");
-//                            for (int i = 0; i < visitados.size(); i++) {
-//                                System.out.println(visitados.get(i));
-//                            }
-//                            System.out.println("----------------------------------");
-
-           
             String siguiente = factible(seleccion(mapa, visitados), solucion);
-            
             solucion.add(siguiente);
-
         }
         if (solucion(solucion,mapa)) {
             System.out.println("se encontro una solucion");

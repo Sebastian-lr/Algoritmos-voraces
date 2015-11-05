@@ -33,19 +33,16 @@ public class Kruskal {
 
             } else if (factible(siguiente, s)) {
                 if (!nodos.contains(siguiente.split(",")[0])) {
-                    System.out.println("-----> " + siguiente.split(",")[0]);
                     nodos.add(siguiente.split(",")[0]);
                 }
-                if (nodos.contains(siguiente.split(",")[1])) {
-                    System.out.println("-----> " + siguiente.split(",")[1]);
-                    nodos.add(siguiente.split(",")[0]);
+                if (!nodos.contains(siguiente.split(",")[1])) {
+                    nodos.add(siguiente.split(",")[1]);
                 }
                 s.add(siguiente);
             }
         }
         if (solucion(mapa, nodos)) {
             for (int i = 0; i < nodos.size(); i++) {
-                System.out.println(nodos.get(i));
             }
             System.out.println("se encontro una solucion");
             for (int i = 0; i < s.size(); i++) {
@@ -106,8 +103,8 @@ public class Kruskal {
 
     public boolean solucion(HashMap mapa, LinkedList<String> s) {
         boolean sol = false;
-        System.out.println("mapa" + mapa.size());
-        System.out.println("sol: " + s.size());
+//        System.out.println("mapa" + mapa.size());
+//        System.out.println("sol: " + s.size());
         if (mapa.size() == s.size()) {
             sol = true;
         }
